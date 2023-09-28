@@ -1,0 +1,36 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "definitions": {
+      "quantity": {
+        "type": "object",
+        "rdf_type": "emmo:QuantitativeProperty", 
+        "properties": {
+          "value": { "type": "number" },
+          "unit": { "type": "string" }
+        },
+        "required": ["value", "unit"]
+      }
+    },
+    "type": "object",
+    "name": "Electrode",
+    "rdf_id": [ "http://www.w3.org/2002/07/owl#NamedIndividual", 
+                "http://emmo.info/electrochemistry#electrochemistry_0f007072-a8dd-4798-b865-1bf9363be627"],
+    "properties": {
+      "manufacturer": { "type": "string", "minLength": 1 , "rdf_type": "owl:ObjectProperty", "rdf_id": "https://schema.org/manufacturer"},
+      "production_date": { "type": "string", "minLength": 1 , "rdf_type": "owl:ObjectProperty", "rdf_id": "https://schema.org/productionDate"},
+      "name": { "type": "string", "minLength": 1 , "rdf_type": "owl:DatatypeProperty", "rdf_id": "http://www.w3.org/2004/02/skos/core#prefLabel"},
+      "serial_number": { "type": "string", "minLength": 1 , "rdf_type": "owl:DatatypeProperty", "rdf_id": "https://schema.org/serialNumber"},
+      "comment": { "type": "string", "minLength": 1 , "rdf_type": "owl:DatatypeProperty", "rdf_id": "http://www.w3.org/2000/01/rdf-schema#comment"},
+      "active_material": { "type": "string", "minLength": 1 , "rdf_type": "owl:ObjectProperty", "rdf_id": "http://emmo.info/electrochemistry#electrochemistry_860aa941_5ff9_4452_8a16_7856fad07bee"},
+      "binder": { "type": "string", "minLength": 1 , "rdf_type": "owl:ObjectProperty", "rdf_id": "http://emmo.info/emmo#EMMO_dba27ca1_33c9_4443_a912_1519ce4c39ec"},
+      "conductive_additive": { "type": "string", "minLength": 1 , "rdf_type": "owl:ObjectProperty", "rdf_id": "http://emmo.info/emmo#EMMO_dba27ca1_33c9_4443_a912_1519ce4c39ec"},
+      "current_collector": { "type": "string", "minLength": 1 , "rdf_type": "owl:ObjectProperty", "rdf_id": "http://emmo.info/emmo#EMMO_dba27ca1_33c9_4443_a912_1519ce4c39ec"},
+      "mass_loading": { "$ref": "#/definitions/quantity" , "rdf_type": "emmo:QuantitativeProperty", "rdf_id": "http://emmo.info/electrochemistry#electrochemistry_c955c089_6ee1_41a2_95fc_d534c5cfd3d5", "unit_label": "mg/cm2", "unit_id": "http://emmo.info/emmo#MilliGramPerSquareCentiMetre"},
+      "areal_capacity": { "$ref": "#/definitions/quantity" , "rdf_type": "emmo:QuantitativeProperty", "rdf_id": "http://emmo.info/electrochemistry#electrochemistry_bcb33f7e_5573_4bc2_b636_4ea313a9dd3a", "unit_label": "mAh/cm2", "unit_id": "http://emmo.info/emmo#MilliAmpereHourPerSquareCentiMetre"},
+      "initial_density": { "$ref": "#/definitions/quantity" , "rdf_type": "emmo:QuantitativeProperty", "rdf_id": "http://emmo.info/emmo#EMMO_06448f64_8db6_4304_8b2c_e785dba82044", "unit_label": "g/cm3", "unit_id": "http://emmo.info/emmo#GramPerCubicCentiMetre"},
+      "calendared_density": { "$ref": "#/definitions/quantity" , "rdf_type": "emmo:QuantitativeProperty", "rdf_id": "http://emmo.info/electrochemistry#electrochemistry_520995f8_ec9c_4b3c_bb64_2cd691947379", "unit_label": "g/cm3", "unit_id": "http://emmo.info/emmo#GramPerCubicCentiMetre"},
+      "charge_capacity": { "$ref": "#/definitions/quantity" , "rdf_type": "emmo:QuantitativeProperty", "rdf_id": "http://emmo.info/electrochemistry#electrochemistry_10763eb0_dbc9_4d34_bd1a_7b8996590d45", "unit_label": "mAh", "unit_id": "http://emmo.info/emmo#MilliAmpereHour"},
+      "reversible_discharge_capacity": { "$ref": "#/definitions/quantity" , "rdf_type": "emmo:QuantitativeProperty", "rdf_id": "http://emmo.info/electrochemistry#electrochemistry_0141b5c2_9f15_46f4_82e6_92a104faa476", "unit_label": "mAh", "unit_id": "http://emmo.info/emmo#MilliAmpereHour"}
+    },
+    "required": ["manufacturer", "name", "serial_number"]
+  }

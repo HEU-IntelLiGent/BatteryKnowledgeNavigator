@@ -1,0 +1,51 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "definitions": {
+        "quantity": {
+        "type": "object",
+        "rdf_type": "emmo:QuantitativeProperty", 
+        "properties": {
+            "value": { "type": "number" },
+            "unit": { "type": "string" }
+        },
+        "required": ["value", "unit"]
+        }
+    },
+    "type": "object",
+    "name": "Electrolyte",
+    "rdf_id": [ "http://www.w3.org/2002/07/owl#NamedIndividual", 
+                "http://emmo.info/electrochemistry#electrochemistry_fb0d9eef_92af_4628_8814_e065ca255d59"],
+    "properties": {
+        "manufacturer": { "type": "string", "minLength": 1 , "rdf_type": "owl:ObjectProperty", "rdf_id": "https://schema.org/manufacturer"},
+        "name": { "type": "string", "minLength": 1 , "rdf_type": "owl:DatatypeProperty", "rdf_id": "http://www.w3.org/2004/02/skos/core#prefLabel"},
+        "serial_number": { "type": "string", "minLength": 1 , "rdf_type": "owl:DatatypeProperty", "rdf_id": "https://schema.org/serialNumber"},
+        "comment": { "type": "string", "minLength": 1 , "rdf_type": "owl:DatatypeProperty", "rdf_id": "http://www.w3.org/2000/01/rdf-schema#comment"},
+        "solvent": {
+            "type": "array",
+            "rdf_type": "owl:ObjectProperty", 
+            "rdf_id": "http://emmo.info/emmo#EMMO_dba27ca1_33c9_4443_a912_1519ce4c39ec",
+            "items": {
+            "type": "object",
+            "properties": {
+                "compound": { "type": "string", "minLength": 1 , "rdf_type": "owl:ObjectProperty", "rdf_id": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"},
+                "VolumeFraction": { "$ref": "#/definitions/quantity" , "rdf_type": "emmo:QuantitativeProperty", "rdf_id": "http://emmo.info/emmo#EMMO_a8eb87b5_4d10_4137_a75c_e04ee59ca095", "unit_label": "1", "unit_id": "http://emmo.info/emmo#UnitOne"},
+                "MassFraction": { "$ref": "#/definitions/quantity" , "rdf_type": "emmo:QuantitativeProperty", "rdf_id": "http://emmo.info/emmo#EMMO_7c055d65_2929_40e1_af4f_4bf10995ad50", "unit_label": "1", "unit_id": "http://emmo.info/emmo#UnitOne"}
+            }
+            }
+        },
+        "solute": {
+            "type": "array",
+            "rdf_type": "owl:ObjectProperty", 
+            "rdf_id": "http://emmo.info/emmo#EMMO_dba27ca1_33c9_4443_a912_1519ce4c39ec",
+            "items": {
+            "type": "object",
+            "properties": {
+                "compound": { "type": "string", "minLength": 1 , "rdf_type": "owl:ObjectProperty", "rdf_id": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"},
+                "Concentration": { "$ref": "#/definitions/quantity" , "rdf_type": "emmo:QuantitativeProperty", "rdf_id": "http://emmo.info/emmo#EMMO_d5be1faf_0c56_4f5a_9b78_581e6dee949f", "unit_label": "1", "unit_id": "http://emmo.info/emmo#MolePerLitre"},
+                "MassFraction": { "$ref": "#/definitions/quantity" , "rdf_type": "emmo:QuantitativeProperty", "rdf_id": "http://emmo.info/emmo#EMMO_7c055d65_2929_40e1_af4f_4bf10995ad50", "unit_label": "1", "unit_id": "http://emmo.info/emmo#UnitOne"}
+            }
+            }
+        }
+    }
+  }
+  

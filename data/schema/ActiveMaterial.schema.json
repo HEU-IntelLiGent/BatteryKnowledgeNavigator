@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "quantity": {
+      "type": "object",
+      "rdf_type": "emmo:QuantitativeProperty", 
+      "properties": {
+        "value": { "type": "number" },
+        "unit": { "type": "string" }
+      },
+      "required": ["value", "unit"]
+    }
+  },
+  "type": "object",
+  "name": "Active Material",
+  "rdf_id": [ "http://www.w3.org/2002/07/owl#NamedIndividual", 
+              "http://emmo.info/electrochemistry#electrochemistry_79d1b273-58cd-4be6-a250-434817f7c261"],
+  "properties": {
+    "material": { "type": "string", "minLength": 1 , "rdf_type": "owl:ObjectProperty", "rdf_id": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"},
+    "manufacturer": { "type": "string", "minLength": 1 , "rdf_type": "owl:ObjectProperty", "rdf_id": "https://schema.org/manufacturer"},
+    "name": { "type": "string", "minLength": 1 , "rdf_type": "owl:DatatypeProperty", "rdf_id": "http://www.w3.org/2004/02/skos/core#prefLabel"},
+    "serial_number": { "type": "string", "minLength": 1 , "rdf_type": "owl:DatatypeProperty", "rdf_id": "https://schema.org/serialNumber"},
+    "comment": { "type": "string", "minLength": 1 , "rdf_type": "owl:DatatypeProperty", "rdf_id": "http://www.w3.org/2000/01/rdf-schema#comment"},
+    "d10_particle_size": { "$ref": "#/definitions/quantity" , "rdf_type": "emmo:QuantitativeProperty", "rdf_id": "http://emmo.info/electrochemistry#electrochemistry_b83c6435_6edf_470e_9725_538a853e08f7", "unit_label": "micron", "unit_id": "http://emmo.info/emmo#MicroMetre"},
+    "d50_particle_size": { "$ref": "#/definitions/quantity" , "rdf_type": "emmo:QuantitativeProperty", "rdf_id": "http://emmo.info/electrochemistry#electrochemistry_3cfdfc10_a5cb_4e3e_b1a1_281010d1465c", "unit_label": "micron", "unit_id": "http://emmo.info/emmo#MicroMetre"},
+    "d90_particle_size": { "$ref": "#/definitions/quantity" , "rdf_type": "emmo:QuantitativeProperty", "rdf_id": "http://emmo.info/electrochemistry#electrochemistry_8e943e12_ecc0_4093_899e_7226be6be7f2", "unit_label": "micron", "unit_id": "http://emmo.info/emmo#MicroMetre"},
+    "d95_particle_size": { "$ref": "#/definitions/quantity" , "rdf_type": "emmo:QuantitativeProperty", "rdf_id": "http://emmo.info/electrochemistry#electrochemistry_02d2d1d1_241c_429b_b4e7_31f2c3dc4835", "unit_label": "micron", "unit_id": "http://emmo.info/emmo#MicroMetre"},
+    "specific_surface_area": { "$ref": "#/definitions/quantity" , "rdf_type": "emmo:QuantitativeProperty", "rdf_id": "http://emmo.info/electrochemistry#electrochemistry_cf54e7c1_f359_4715_b61d_0350b890d597", "unit_label": "m2/g", "unit_id": "http://emmo.info/emmo#SquareMetrePerGram"},
+    "tapped_density": { "$ref": "#/definitions/quantity" , "rdf_type": "emmo:QuantitativeProperty", "rdf_id": "http://emmo.info/electrochemistry#electrochemistry_5ce6a328_713c_4383_ad63_26c902c30e34", "unit_label": "g/cm3", "unit_id": "http://emmo.info/emmo#GramPerCubicCentiMetre"}
+  },
+  "required": ["manufacturer", "name", "serial_number"]
+}

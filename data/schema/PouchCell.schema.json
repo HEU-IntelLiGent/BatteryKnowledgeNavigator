@@ -1,0 +1,42 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "definitions": {
+      "quantity": {
+        "type": "object",
+        "rdf_type": "emmo:QuantitativeProperty", 
+        "properties": {
+          "value": { "type": "number" },
+          "unit": { "type": "string" }
+        },
+        "required": ["value", "unit"]
+      }
+    },
+    "type": "object",
+    "name": "Pouch Cell",
+    "rdf_id": [ "http://www.w3.org/2002/07/owl#NamedIndividual", 
+                "http://emmo.info/battery#battery_392b3f47_d62a_4bd4_a819_b58b09b8843a"],
+    "properties": {
+      "manufacturer": { "type": "string", "minLength": 1 , "rdf_type": "owl:ObjectProperty", "rdf_id": "https://schema.org/manufacturer"},
+      "production_date": { "type": "string", "minLength": 1 , "rdf_type": "owl:ObjectProperty", "rdf_id": "https://schema.org/productionDate"},
+      "name": { "type": "string", "minLength": 1 , "rdf_type": "owl:DatatypeProperty", "rdf_id": "http://www.w3.org/2004/02/skos/core#prefLabel"},
+      "serial_number": { "type": "string", "minLength": 1 , "rdf_type": "owl:DatatypeProperty", "rdf_id": "https://schema.org/serialNumber"},
+      "comment": { "type": "string", "minLength": 1 , "rdf_type": "owl:DatatypeProperty", "rdf_id": "http://www.w3.org/2000/01/rdf-schema#comment"},
+      "positive_electrode": { "type": "string", "minLength": 1 , "rdf_type": "owl:ObjectProperty", "rdf_id": ""},
+      "negative_electrode": { "type": "string", "minLength": 1 , "rdf_type": "owl:ObjectProperty", "rdf_id": ""},
+      "separator": { "type": "string", "minLength": 1 , "rdf_type": "owl:ObjectProperty", "rdf_id": ""},
+      "electrolyte": { "type": "string", "minLength": 1 , "rdf_type": "owl:ObjectProperty", "rdf_id": ""},
+      "container": { "type": "string", "minLength": 1 , "rdf_type": "owl:ObjectProperty", "rdf_id": ""},
+      "deep_drawn_side_1": { "$ref": "#/definitions/quantity" , "rdf_type": "emmo:QuantitativeProperty", "rdf_id": "", "unit_label": "mm", "unit_id": ""},
+      "deep_drawn_side_2": { "$ref": "#/definitions/quantity" , "rdf_type": "emmo:QuantitativeProperty", "rdf_id": "", "unit_label": "mm", "unit_id": ""},
+      "stacking_technique": { "type": "string", "minLength": 1 , "rdf_type": "owl:ObjectProperty", "rdf_id": ""},
+      "stacking_technician": { "type": "string", "minLength": 1 , "rdf_type": "owl:ObjectProperty", "rdf_id": ""},
+      "filling_technician": { "type": "string", "minLength": 1 , "rdf_type": "owl:ObjectProperty", "rdf_id": ""},
+      "stack_weight_without_tabs": { "$ref": "#/definitions/quantity" , "rdf_type": "emmo:QuantitativeProperty", "rdf_id": "", "unit_label": "g", "unit_id": ""},
+      "dry_weight": { "$ref": "#/definitions/quantity" , "rdf_type": "emmo:QuantitativeProperty", "rdf_id": "", "unit_label": "g", "unit_id": ""},
+      "wet_weight": { "$ref": "#/definitions/quantity" , "rdf_type": "emmo:QuantitativeProperty", "rdf_id": "", "unit_label": "g", "unit_id": ""},
+      "electrolyte_volume": { "$ref": "#/definitions/quantity" , "rdf_type": "emmo:QuantitativeProperty", "rdf_id": "", "unit_label": "mL", "unit_id": ""},
+      "electrolyte_volume_set": { "$ref": "#/definitions/quantity" , "rdf_type": "emmo:QuantitativeProperty", "rdf_id": "", "unit_label": "mL", "unit_id": ""},
+      "capacity": { "$ref": "#/definitions/quantity" , "rdf_type": "emmo:QuantitativeProperty", "rdf_id": "", "unit_label": "mAh", "unit_id": ""}
+    },
+    "required": ["manufacturer", "name", "serial_number"]
+  }

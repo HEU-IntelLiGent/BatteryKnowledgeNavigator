@@ -1,0 +1,14 @@
+{
+    "type": "object",
+    "name": "Binder",
+    "rdf_id": [ "http://www.w3.org/2002/07/owl#NamedIndividual", 
+                "http://emmo.info/electrochemistry#electrochemistry_68eb5e35_5bd8_47b1_9b7f_f67224fa291e"],
+    "properties": {
+        "material": { "type": "string", "minLength": 1 , "rdf_type": "owl:ObjectProperty", "rdf_id": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"},
+        "manufacturer": { "type": "string", "minLength": 1 , "rdf_type": "owl:ObjectProperty", "rdf_id": "https://schema.org/manufacturer"},
+        "name": { "type": "string", "minLength": 1 , "rdf_type": "owl:DatatypeProperty", "rdf_id": "http://www.w3.org/2004/02/skos/core#prefLabel"},
+        "serial_number": { "type": "string", "minLength": 1 , "rdf_type": "owl:DatatypeProperty", "rdf_id": "https://schema.org/serialNumber"},
+        "comment": { "type": "string", "minLength": 1 , "rdf_type": "owl:DatatypeProperty", "rdf_id": "http://www.w3.org/2000/01/rdf-schema#comment"}
+    }
+  }
+  

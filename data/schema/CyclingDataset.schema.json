@@ -1,0 +1,11 @@
+{
+    "type": "object",
+    "name": "Cycling Dataset",
+    "rdf_id": [ "http://www.w3.org/2002/07/owl#NamedIndividual", 
+                "http://emmo.info/battery#battery_2198cf67_b5d2_4325_9b6a_dde0a26fd065"],
+    "properties": {
+        "battery": { "type": "string", "minLength": 1 , "rdf_type": "owl:ObjectProperty", "rdf_id": ""},
+        "procedure": { "type": "string", "minLength": 1 , "rdf_type": "owl:ObjectProperty", "rdf_id": ""}
+    }
+  }
+  
