@@ -21,7 +21,7 @@ Open command prompt and run the following command to initialize the database clu
 
 To start the PostgreSQL server, run the following command:
 
-"pg_ctl -D path_to_directory_created_in_step_2" 
+"pg_ctl -D path_to_directory_created_in_step_2 start" 
 
 ## Step 5: Create a database
 
