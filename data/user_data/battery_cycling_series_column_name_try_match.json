@@ -1,0 +1,6 @@
+{
+   "CycleNo": ["Cycle"],
+    "ChargeCapacity": ["AH-IN"],
+    "DischargeCapacity": ["AH-OUT"],
+    "TestTime": ["Test Time"]
+}
