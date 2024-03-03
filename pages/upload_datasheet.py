@@ -54,7 +54,7 @@ def send_df_to_sql(df, table_name, connection_string):
         df.to_sql(table_name, con=engine, if_exists='append', index=False)
         st.text("Data successfully added to the '{}' table.".format(table_name))
     except Exception as e:
-        st.text("Error:", e)
+        st.text(e)
 
 def check_required_columns(column_match_dict, required_number):
     if len(column_match_dict)==required_number and len(set(column_match_dict.values())) == required_number:
@@ -73,17 +73,18 @@ def data_series_select_box(uploaded_df,std_col_list,matched_dict=None):
                 unique_key+=1
                 stcol1, stcol2= st.columns([1, 2])
                 if type(col_vale)==str:
-                    selected_df_column=stcol1.selectbox("columns from your csv",options=[col_vale],key=f"{quantity}_{unique_key}")
+                    selected_df_column=stcol1.selectbox("columns from your csv",options=[col_vale],key=f"st1-{unique_key}")                  
                 else:
                     st.text(f"unable to find a suitable match for quantity {quantity}, please select the column.")
-                    selected_df_column=stcol1.selectbox("columns from your csv",options=col_vale,key=f"{quantity}_{unique_key}")
-                selected_match=stcol2.selectbox("Choose quantity",options=[quantity],key=unique_key)
+                    selected_df_column=stcol1.selectbox("columns from your csv",options=col_vale,key=f"st1-{unique_key}")
+                selected_match=stcol2.selectbox("Choose quantity",options=[quantity],key=f"st2-{unique_key}")
+                column_match[selected_df_column]=selected_match
     else:
             for quantity in std_col_list:
                 unique_key+=1
                 stcol1, stcol2= st.columns([1, 2])
-                selected_df_column=stcol1.selectbox("columns from your csv",options=uploaded_df.columns,key=f"{quantity}_{unique_key}")
-                selected_match=stcol2.selectbox("Choose quantity",options=std_col_list,key=unique_key)
+                selected_df_column=stcol1.selectbox("columns from your csv",options=uploaded_df.columns,key=f"st1_std-{unique_key}")
+                selected_match=stcol2.selectbox("Choose quantity",options=std_col_list,key=f"st2_std-{unique_key}")
                 column_match[selected_df_column]=selected_match
     database_df[selected_match]=uploaded_df[selected_df_column]
     return column_match,database_df
@@ -110,6 +111,13 @@ battery_data_types= {
     "Battery Cycling Data":{"table_columns":["Cycle no","Charge Capacity","Discharge Capacity","Test Time"],"db_table_name":"battery_cycling_series_data","try_match_file_path":r"data\user_data\battery_cycling_series_column_name_try_match.json"} 
 }
 
+def keep_session_state():
+    if 'lucky' not in st.session_state:
+        st.session_state.lucky = False
+
+def restore_lucky_state():
+    st.session_state.lucky = True
+
 def main():
     data_table_type,header_rows= user_input_tabletype()
     if data_table_type in battery_data_types :
@@ -118,16 +126,18 @@ def main():
             df=uploaded_file_df(uploaded_file=uploaded_file,header_row_count=int(header_rows))
             if type(df) == pd.DataFrame:
                 database_df=pd.DataFrame()
-                try_match=st.button("I am feeling lucky!")
-                if try_match:
-                    matched_dict=load_default_col_names(battery_data_types[data_table_type]["try_match_file_path"],df)
-                    column_match, database_df = data_series_select_box(df,battery_data_types[data_table_type]["table_columns"],matched_dict)
-                else:
-                    column_match, database_df = data_series_select_box(df,battery_data_types[data_table_type]["table_columns"])
+                # try_match=st.button("I am feeling lucky!",key="lucky")
+                # if try_match:
+                matched_dict=load_default_col_names(battery_data_types[data_table_type]["try_match_file_path"],df)
+                column_match, database_df = data_series_select_box(df,battery_data_types[data_table_type]["table_columns"],matched_dict)
+                # else:
+                #     column_match, database_df = data_series_select_box(df,battery_data_types[data_table_type]["table_columns"])
                 save_data_match(df, column_match, database_df)
-                validate_columns_commit_database = st.button("I have matched columns correctly, commit to database!",key=f"d_")
+                validate_columns_commit_database = st.button("I have matched columns correctly, commit to database!",key="dbase")
+                print(column_match) 
                 if validate_columns_commit_database:
                     matched_cols=check_required_columns(column_match,4)
+                    print(matched_cols)
                     if matched_cols:
                         table_name=battery_data_types[data_table_type]["db_table_name"]
                         connection_string = 'postgresql://sridevik@localhost:5432/HEU-intelligent'

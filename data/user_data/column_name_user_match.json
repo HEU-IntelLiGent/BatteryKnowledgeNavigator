@@ -1,1 +1,6 @@
-{}
+{
+    "TestTime": "Time",
+    "Amps": "Current",
+    "Volts": "Voltage",
+    "Unnamed: 9": "Temperature"
+}
