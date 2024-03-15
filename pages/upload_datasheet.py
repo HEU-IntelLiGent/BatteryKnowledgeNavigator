@@ -137,6 +137,7 @@ def main():
                 save_data_match(df, column_match, database_df)
                 validate_columns_commit_database = st.button("I have matched columns correctly, commit to database!",key="dbase")
                 if validate_columns_commit_database:
+                    save_data_match(df, column_match, database_df)
                     matched_cols=check_required_columns(column_match,4)
                     if matched_cols:
                         uri_updated_database_df = add_uuid_columns(database_df)
