@@ -114,9 +114,10 @@ def add_uuid_columns(df):
     # Generate UUIDs for each row
     uuids = [uuid.uuid4() for _ in range(len(df))]
     # Add UUIDs as new columns to the DataFrame
-    df['test URI'] = [str(uuid_) for uuid_ in uuids]
-    df['record URI'] = [str(uuid_) for uuid_ in uuids]
-    df['cell URI'] = [str(uuid_) for uuid_ in uuids]
+    namespace = "example.ord/id" 
+    df['test URI'] = [f"{namespace}/testId/{uuid_}" for uuid_ in uuids]
+    df['record URI'] = [f"{namespace}/recordId/{uuid_}" for uuid_ in uuids]
+    df['cell URI'] = [f"{namespace}/cellId/{uuid_}" for uuid_ in uuids]
     return df
 
 battery_data_types= {
