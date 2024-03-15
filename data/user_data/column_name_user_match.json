@@ -1,6 +1,6 @@
 {
-    "TestTime": "Time",
-    "Amps": "Current",
-    "Volts": "Voltage",
-    "Unnamed: 9": "Temperature"
+    "Cycle": "cycle number",
+    "AH-IN": "charge capacity",
+    "AH-OUT": "discharge capacity",
+    "Test Time": "test time"
 }

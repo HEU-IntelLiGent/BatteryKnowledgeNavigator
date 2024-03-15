@@ -120,8 +120,8 @@ def add_uuid_columns(df):
     return df
 
 battery_data_types= {
-    "Time Series Data": {"table_columns":["Time","Current","Voltage","Temperature"],"db_table_name":"battery_time_series_data","try_col_name_match_file_path":r"data\user_data\battery_time_series_column_name_try_match.json"},
-    "Battery Cycling Data":{"table_columns":["Cycle no","Charge Capacity","Discharge Capacity","Test Time"],"db_table_name":"battery_cycling_series_data","try_col_name_match_file_path":r"data\user_data\battery_cycling_series_column_name_try_match.json"} 
+    "Time Series Data": {"table_columns":["test time","current","voltage","temperature"],"db_table_name":"battery_time_series_data","try_col_name_match_file_path":r"data\user_data\battery_time_series_column_name_try_match.json"},
+    "Battery Cycling Data":{"table_columns":["cycle number","charge capacity","discharge capacity","test time"],"db_table_name":"battery_cycling_series_data","try_col_name_match_file_path":r"data\user_data\battery_cycling_series_column_name_try_match.json"} 
 }
 
 def main():
@@ -135,13 +135,11 @@ def main():
                 matched_dict=load_default_col_names(battery_data_types[data_table_type]["try_col_name_match_file_path"],df)
                 column_match, database_df = data_series_select_box(df,battery_data_types[data_table_type]["table_columns"],matched_dict)
                 save_data_match(df, column_match, database_df)
-                print(database_df)
                 validate_columns_commit_database = st.button("I have matched columns correctly, commit to database!",key="dbase")
                 if validate_columns_commit_database:
                     matched_cols=check_required_columns(column_match,4)
                     if matched_cols:
                         uri_updated_database_df = add_uuid_columns(database_df)
-                        print(uri_updated_database_df)
                         table_name=battery_data_types[data_table_type]["db_table_name"]
                         connection_string = 'postgresql://sridevik@localhost:5432/HEU-intelligent'
                         send_df_to_sql(uri_updated_database_df, table_name, connection_string)
