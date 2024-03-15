@@ -1,6 +1,6 @@
 {
-    "Time": ["TestTime"],
-    "Current": ["Amps"],
-    "Voltage": ["Volts"],
+    "Time": ["TestTime","Time"],
+    "Current": ["Amps","Current"],
+    "Voltage": ["Volts","Voltage"],
     "Temperature": ["Temperature"]
 }

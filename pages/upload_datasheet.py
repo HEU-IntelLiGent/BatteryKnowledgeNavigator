@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-import json
+import json,uuid
 from sqlalchemy import create_engine
 from collections import OrderedDict
 
@@ -61,7 +61,7 @@ def check_required_columns(column_match_dict, required_number):
         st.text("Required columns present! Thanks")
         return 1
     else:
-        st.text("Time, voltage, current are not mapped uniquely! please check again.!")
+        st.text("Columns not mapped uniquely!")
 
 
 def data_series_select_box(uploaded_df,std_col_list,matched_dict=None):
@@ -79,6 +79,7 @@ def data_series_select_box(uploaded_df,std_col_list,matched_dict=None):
                     selected_df_column=stcol1.selectbox("columns from your csv",options=col_vale,key=f"st1-{unique_key}")
                 selected_match=stcol2.selectbox("Choose quantity",options=[quantity],key=f"st2-{unique_key}")
                 column_match[selected_df_column]=selected_match
+                database_df[selected_match]=uploaded_df[selected_df_column]
     else:
             for quantity in std_col_list:
                 unique_key+=1
@@ -95,6 +96,7 @@ def save_data_match(df, column_match, database_df):
 
 
 def load_default_col_names(existing_json,uploaded_df):
+    ## to be implemented fuzzy match instead of string match
     with open(existing_json, "r") as file:
         orderedjson_data = json.load(file,object_pairs_hook=OrderedDict)
     matched_dict = {}
@@ -102,21 +104,25 @@ def load_default_col_names(existing_json,uploaded_df):
         for value in value_list:
             if value in uploaded_df.columns:
                 matched_dict[key] = value
-            else:
+                print("matched_dict",matched_dict)
+                break
+        else:
                matched_dict[key] = list(uploaded_df.columns) #for those database table columns with no match found
     return matched_dict
 
+def add_uuid_columns(df):
+    # Generate UUIDs for each row
+    uuids = [uuid.uuid4() for _ in range(len(df))]
+    # Add UUIDs as new columns to the DataFrame
+    df['test URI'] = [str(uuid_) for uuid_ in uuids]
+    df['record URI'] = [str(uuid_) for uuid_ in uuids]
+    df['cell URI'] = [str(uuid_) for uuid_ in uuids]
+    return df
+
 battery_data_types= {
-    "Time Series Data": {"table_columns":["Time","Current","Voltage","Temperature"],"db_table_name":"battery_time_series_data","try_match_file_path":r"data\user_data\battery_time_series_column_name_try_match.json"},
-    "Battery Cycling Data":{"table_columns":["Cycle no","Charge Capacity","Discharge Capacity","Test Time"],"db_table_name":"battery_cycling_series_data","try_match_file_path":r"data\user_data\battery_cycling_series_column_name_try_match.json"} 
+    "Time Series Data": {"table_columns":["Time","Current","Voltage","Temperature"],"db_table_name":"battery_time_series_data","try_col_name_match_file_path":r"data\user_data\battery_time_series_column_name_try_match.json"},
+    "Battery Cycling Data":{"table_columns":["Cycle no","Charge Capacity","Discharge Capacity","Test Time"],"db_table_name":"battery_cycling_series_data","try_col_name_match_file_path":r"data\user_data\battery_cycling_series_column_name_try_match.json"} 
 }
-
-def keep_session_state():
-    if 'lucky' not in st.session_state:
-        st.session_state.lucky = False
-
-def restore_lucky_state():
-    st.session_state.lucky = True
 
 def main():
     data_table_type,header_rows= user_input_tabletype()
@@ -126,22 +132,19 @@ def main():
             df=uploaded_file_df(uploaded_file=uploaded_file,header_row_count=int(header_rows))
             if type(df) == pd.DataFrame:
                 database_df=pd.DataFrame()
-                # try_match=st.button("I am feeling lucky!",key="lucky")
-                # if try_match:
-                matched_dict=load_default_col_names(battery_data_types[data_table_type]["try_match_file_path"],df)
+                matched_dict=load_default_col_names(battery_data_types[data_table_type]["try_col_name_match_file_path"],df)
                 column_match, database_df = data_series_select_box(df,battery_data_types[data_table_type]["table_columns"],matched_dict)
-                # else:
-                #     column_match, database_df = data_series_select_box(df,battery_data_types[data_table_type]["table_columns"])
                 save_data_match(df, column_match, database_df)
+                print(database_df)
                 validate_columns_commit_database = st.button("I have matched columns correctly, commit to database!",key="dbase")
-                print(column_match) 
                 if validate_columns_commit_database:
                     matched_cols=check_required_columns(column_match,4)
-                    print(matched_cols)
                     if matched_cols:
+                        uri_updated_database_df = add_uuid_columns(database_df)
+                        print(uri_updated_database_df)
                         table_name=battery_data_types[data_table_type]["db_table_name"]
                         connection_string = 'postgresql://sridevik@localhost:5432/HEU-intelligent'
-                        send_df_to_sql(database_df, table_name, connection_string)
+                        send_df_to_sql(uri_updated_database_df, table_name, connection_string)
             else:
                 st.text("Check the number of header rows")
     else:

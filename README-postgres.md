@@ -37,6 +37,35 @@ Run the following commands:
 GRANT ALL PRIVILEGES ON DATABASE "HEU-intelligent" TO user1;
 
 
+#### basic postgres sql commands
+1. "psql HEU-intelligent" to enter sql terminal of database
+2. "\dt" to see the tables created/existing 
+3."CREATE TABLE battery_time_series_data (
+    time TIME,
+    current FLOAT,
+    voltage FLOAT,
+    temperature FLOAT,
+     test time" TIME,
+    "test URI" CHAR(200),
+    "record URI" CHAR(200),
+    "cell URI" CHAR(200)
+);
+
+"
+4.CREATE TABLE cycling_series_data (
+    "cycle number" INTEGER,
+    "charge capacity" FLOAT,
+    "discharge capacity" FLOAT,
+    "test time" TIME,
+    "test URI" CHAR(200),
+    "record URI" CHAR(200),
+    "cell URI" CHAR(200)
+);
+
+"
+5. SELECT current_user;
+
+
 
 
 

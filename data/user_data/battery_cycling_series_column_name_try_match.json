@@ -1,6 +1,6 @@
 {
-   "CycleNo": ["Cycle"],
-    "ChargeCapacity": ["AH-IN"],
-    "DischargeCapacity": ["AH-OUT"],
-    "TestTime": ["Test Time"]
+   "cycle number": ["Cycle"],
+    "charge capacity": ["AH-IN","Charge Capacity"],
+    "discharge capacity": ["AH-OUT","Discharge Capacity"],
+    "test time": ["Test Time","Time"]
 }
