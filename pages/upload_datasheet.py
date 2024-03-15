@@ -13,7 +13,7 @@ def user_input_tabletype():
         header_rows = st.text_input("Enter the number of header rows in your CSV:",value=0)
         return selected_data_type,header_rows
     elif selected_data_type =="Battery Cycling Data":
-        st.write("For Cycling data, the columns you can upload the cycle number, charge capacitance & discharge capacitance data to the database table")
+        st.write("For Cycling data, the columns you can upload the cycle number, charge capacity & discharge capacity data to the database table")
         header_rows = st.text_input("Enter the number of header rows in your CSV:",value=0)
         return selected_data_type,header_rows
     else:
@@ -139,6 +139,8 @@ def main():
                 if validate_columns_commit_database:
                     save_data_match(df, column_match, database_df)
                     matched_cols=check_required_columns(column_match,4)
+
+
                     if matched_cols:
                         uri_updated_database_df = add_uuid_columns(database_df)
                         table_name=battery_data_types[data_table_type]["db_table_name"]
