@@ -1,37 +1,15 @@
 import streamlit as st
-import psycopg2
 import pandas as pd
 import plotly.express as px
-import plotly.graph_objects as go
 import numpy as np
 from scipy import stats
-from pptx import Presentation
-from pptx.util import Inches
-from pptx.util import Pt
-from io import BytesIO
-import tempfile
-import os
+from tools.config import connect_postgres
 
 
 st.markdown("# IntelLiGent Data Dashboard")
 
-current_directory = os.getcwd()
-parent_directory = os.path.dirname(current_directory)
-ppt_directory = os.path.join(current_directory, 'data', 'ppt')
-ppt_template_directory = os.path.join(ppt_directory, 'templates')
-
-# PostgreSQL connection parameters
-db_params = {
-    "dbname": "xxxx",
-    "user": "xxxx",
-    "password": "xxxx",
-    "host": "xxxx",
-    "port": "xxxx"
-}
-
 # Create a PostgreSQL connection
-conn = psycopg2.connect(**db_params)
-cursor = conn.cursor()
+conn = connect_postgres()
 
 # Function to fetch valid combinations of CellURI and TestURI
 @st.cache_data
@@ -92,7 +70,7 @@ with st.expander("Pre-processing options"):
 
     col1, col2 = st.columns(2)
     eol_limit = col1.toggle('EOL', 
-                        help="Calculate end of life (80\% initial capacity) and overlay in capacity plot")
+                        help="Calculate end of life (80% initial capacity) and overlay in capacity plot")
     
     outliers = col2.toggle('Filter outliers',
                            help="Remove outliers: datapoints 3 standard deviations away from mean")
