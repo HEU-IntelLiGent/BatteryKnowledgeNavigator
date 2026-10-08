@@ -8,9 +8,7 @@ import datetime
 from rdflib import Graph, URIRef, Namespace, Literal
 import uuid
 from io import StringIO
-import psycopg2
-
-
+from tools.config import connect_postgres
 
 
 @st.cache_data
@@ -79,7 +77,6 @@ def triple_df_uri_to_label(df_uri):
 
 def fetch_manufacturers_from_blazegraph():
 
-    #sparql = SPARQLWrapper("http://localhost:9999/blazegraph/sparql")
     sparql = ot.open_blazegraph_endpoint()
     query_text = """
         PREFIX schema: <https://schema.org/>
@@ -101,7 +98,6 @@ def fetch_manufacturers_from_blazegraph():
 
 def fetch_batteries_from_blazegraph():
 
-    #sparql = SPARQLWrapper("http://localhost:9999/blazegraph/sparql")
     sparql = ot.open_blazegraph_endpoint()
     query_text = """
         PREFIX schema: <https://schema.org/>
@@ -622,7 +618,6 @@ def csv_to_sql(uploaded_file):
     
     # Perform actions based on the filename
     if '[STATS]' in filename:
-        nothing = True
         print(f"Performing '[STATS]' action on {filename}")
         TABLE_NAME = 'stats'
         # Your '[STATS]' action code here
@@ -695,12 +690,9 @@ def csv_to_sql(uploaded_file):
         df = df[new_cols]
 
     else:
-        print(f"No specific action for {filename}")
-        
-    # Optionally, save the modified DataFrame back to a CSV file
-    # df.to_csv(file_path, index=False)
-    pause = 1
-    
+        st.warning(f"Unrecognised file name '{filename}': expected it to contain '[STATS]', 'cycle' or 'form'.")
+        return
+
     if '[STATS]' in filename:
         df_stats = pd.concat([df_stats, df], ignore_index=True)
     elif 'cycle' in filename:
@@ -712,18 +704,8 @@ def csv_to_sql(uploaded_file):
     st.write(df)
     
     if st.button("Send to SQL"):
-        db_params = {
-            "dbname": "heu-intelligent",
-            "user": "postgres",
-            "password": "battery2023",
-            "host": "localhost",
-            "port": "5432"
-        }
-        
-        # Create a PostgreSQL connection
-        conn = psycopg2.connect(**db_params)
-        cursor = conn.cursor()
-        
+        conn = connect_postgres()
+
         # Use StringIO to simulate a file object
         sio = StringIO()
         sio.write(df.to_csv(index=False, header=False))
@@ -740,7 +722,3 @@ def csv_to_sql(uploaded_file):
             st.error(f"An error occurred: {e}")
         finally:
             conn.close()
-    
-    
-
-    

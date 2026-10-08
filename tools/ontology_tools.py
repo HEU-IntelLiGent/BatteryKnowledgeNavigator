@@ -5,13 +5,12 @@ import uuid
 import pandas as pd
 from SPARQLWrapper import SPARQLWrapper, JSON, POST, DELETE, INSERT
 import os
+from tools.config import BLAZEGRAPH_URL
 
 @st.cache_data
 def open_blazegraph_endpoint():
-    blazegraph_url = "http://localhost:9999/blazegraph/sparql"
-    
     # Create a SPARQLWrapper instance and set the endpoint
-    sparql = SPARQLWrapper(blazegraph_url)
+    sparql = SPARQLWrapper(BLAZEGRAPH_URL)
     
     return sparql
 
@@ -21,14 +20,14 @@ def clear_cache():
 @st.cache_data
 def sanitize_blazegraph():
     # Step 1: Extract data from Blazegraph
-    sparql = SPARQLWrapper("http://localhost:9999/blazegraph/sparql")
+    sparql = SPARQLWrapper(BLAZEGRAPH_URL)
     query = "SELECT ?s ?p ?o WHERE { ?s ?p ?o }"
     sparql.setQuery(query)
     sparql.setReturnFormat(JSON)
     results = sparql.query().convert()
     
     # Step 1: Extract and delete offending triples from Blazegraph
-    sparql = SPARQLWrapper("http://localhost:9999/blazegraph/sparql")
+    sparql = SPARQLWrapper(BLAZEGRAPH_URL)
     delete_query = """
     DELETE WHERE {
       ?s ?p ?o .

@@ -1,10 +1,8 @@
 import streamlit as st
-from tools import ontology_tools as ot
 from SPARQLWrapper import SPARQLWrapper, JSON
 
-st.markdown("# Page 2 ❄️")
-st.sidebar.markdown("# Page 2 ❄️")
-
+st.markdown("# Query Builder")
+st.sidebar.markdown("# Query Builder")
 
 
 # Define the endpoint
